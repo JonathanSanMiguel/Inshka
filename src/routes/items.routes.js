@@ -6,12 +6,12 @@ const router = Router();
 //Ruta para taer todos los items.
 router.get('/Items', getItems);
 //Ruta para obtener un item.
-router.get('/OneItem', getOneItem);
+router.get('/OneItem/:id', getOneItem);
 //Ruta para crear un nuevo item.
-router.post('/Items', createItem);
+router.post('/create', createItem);
 //Ruta para actualizar un item.
-router.put('/Items', upDateItem);
+router.put('/upDate', upDateItem);
 //Ruta para eliminar un item.
-router.delete('/Items', deleteItem);
+router.delete('/delete', deleteItem);
 
 export default router;

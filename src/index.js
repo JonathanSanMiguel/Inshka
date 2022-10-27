@@ -7,7 +7,7 @@ const app = express();
 
 //MiddleWares
 app.use(morgan("dev"));
-app.use(express.json);
+app.use(express.json());
 app.use(indexRoutes);
 app.use(itemsRoutes);
 
