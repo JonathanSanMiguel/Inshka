@@ -12,6 +12,7 @@ CREATE TABLE item(
 );
 DESCRIBE item;
 
+
 INSERT INTO item VALUES
 (1, 'Martillo', 'Metal y mango de madera', 550, 'Trupper', 'nuevo', 100),
 (2, 'Pinzas', 'Plastico y metal de 15cm de diametro', 180, 'Black&Decker', 'usado', 50),

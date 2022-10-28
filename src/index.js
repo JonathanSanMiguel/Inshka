@@ -8,10 +8,10 @@ const app = express();
 //MiddleWares
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(indexRoutes);
-app.use(itemsRoutes);
 
 //Importacion de las rutas
+app.use(indexRoutes);
+app.use('/inshka', itemsRoutes);
 
 //Inizializacion del puerto
 app.listen(5000);
