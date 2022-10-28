@@ -12,6 +12,6 @@ router.post('/create', createItem);
 //Ruta para actualizar un item.
 router.put('/upDate', upDateItem);
 //Ruta para eliminar un item.
-router.delete('/delete', deleteItem);
+router.delete('/delete/:id', deleteItem);
 
 export default router;
