@@ -2,44 +2,84 @@ import { pool } from '../db.js';
 
 //obtener todos los items.
 export const getItems = async(req, res) => {
-    const [rows] = await pool.query('SELECT * FROM item');
-    res.json(rows);
-};
+    try {
+        //throw new Error('DB error');
+        const [rows] = await pool.query('SELECT * FROM item');
+        res.json(rows);
+    } catch (error) {
+        //Si falla la peticion regresa estado 500.
+        return res.status(500).json({
+            Message: 'Something Goes Wrong.'
+        }); //return
+    } //catch
+}; //getItems
 
 //Obtener un item.
 export const getOneItem = async(req, res) => {
-    const [row] = await pool.query(
-        'SELECT * FROM item WHERE id = ?', [req.params.id]
-    );
-    //Si se busca un id inexistente mandara 404
-    if (row.length <= 0) return res.status(404).json({
-        message: 'Item not found'
-    });
-
-    res.json(row[0]);
-};
+    try {
+        const [row] = await pool.query(
+            'SELECT * FROM item WHERE id = ?', [req.params.id]
+        );
+        //Si se busca un id inexistente mandara 404
+        if (row.length <= 0) return res.status(404).json({
+            message: 'Item not found'
+        });
+        //Toma el valor del arreglo.
+        res.json(row[0]);
+    } catch (error) {
+        return res.status(500).json({
+            Message: 'Something Goes Wrong.'
+        }); //return
+    } //catch
+}; //getOneItem
 
 //Crear un nuevo item.
 export const createItem = async(req, res) => {
     const { nombre, descripcion, peso, marca, estado, cantidad } = req.body;
-    await pool.query(
-        'INSERT INTO item (nombre, descripcion, peso, marca, estado, cantidad) VALUES(?, ?, ?, ?, ?, ?)', [nombre, descripcion, peso, marca, estado, cantidad]
-    );
-    res.sendStatus(204);
-};
+    try {
+        await pool.query(
+            'INSERT INTO item (nombre, descripcion, peso, marca, estado, cantidad) VALUES(?, ?, ?, ?, ?, ?)', [nombre, descripcion, peso, marca, estado, cantidad]
+        );
+        res.sendStatus(204);
+    } catch (error) {
+        return res.status().json({
+            Message: 'Something Goes Wrong'
+        }); //return
+    } //catch
+}; //createItem
 
 //Actualizar un item.
-export const upDateItem = (req, res) => res.send("Actualizando item");
+export const upDateItem = async(req, res) => {
+    const { id } = req.params;
+    const { nombre, descripcion, peso, marca, estado, cantidad } = req.body;
+    try {
+        await pool.query(
+            'UPDATE item SET nombre = ?, descripcion = ?, peso = ?, marca = ?, estado = ?, cantidad = ? WHERE id = ?', [nombre, descripcion, peso, marca, estado, cantidad, id]
+        );
+        res.sendStatus(204);
+    } catch (error) {
+        return res.status().json({
+            Message: 'Something Goes Wrong'
+        }); //return
+    } //catch
+}; //upDateItem
 
 //Borrar un item.
 export const deleteItem = async(req, res) => {
-    const [result] = await pool.query(
-        'DELETE FROM item WHERE id = ?', [req.params.id]
-    );
-    //Si se intenta eliminar un item inexistente mandara 404.
-    if (result.affectedRows <= 0) return res.status(404).json({
-        message: 'Item not found'
-    });
-    //204 es positivo pero sin respons.
-    res.sendStatus(204);
-};
+    try {
+        const [result] = await pool.query(
+            'DELETE FROM item WHERE id = ?', [req.params.id]
+        );
+        //Si se intenta eliminar un item inexistente mandara 404.
+        if (result.affectedRows <= 0) return res.status(404).json({
+            message: 'Item not found'
+        });
+        //204 es positivo pero sin respons.
+        res.sendStatus(204);
+    } catch (error) {
+        //Si falla la peticion mandara error 500.
+        return res.status().json({
+            Message: 'Something Goes Wrong'
+        }); //return
+    } //catch
+}; //deleteItem

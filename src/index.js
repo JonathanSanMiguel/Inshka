@@ -13,6 +13,12 @@ app.use(express.json());
 app.use(indexRoutes);
 app.use('/inshka', itemsRoutes);
 
+app.use((req, res, next) => {
+    res.status(404).json({
+        Message: 'EndPoint Not Found.'
+    });
+});
+
 //Inizializacion del puerto
 app.listen(5000);
 console.log("Servidor en el puerto 5000");
