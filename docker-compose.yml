@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  nodeInshka:
+    image: node
+    container_name: projectnode
+    ports:
+      - 4000:3000
+    build: .
+    command: node src/index.js
