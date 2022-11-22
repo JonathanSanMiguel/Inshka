@@ -10,7 +10,7 @@ router.get('/OneItem/:id', getOneItem);
 //Ruta para crear un nuevo item.
 router.post('/create', createItem);
 //Ruta para actualizar un item.
-router.put('/upDate:id', upDateItem);
+router.put('/upDate/:id', upDateItem);
 //Ruta para eliminar un item.
 router.delete('/delete/:id', deleteItem);
 
