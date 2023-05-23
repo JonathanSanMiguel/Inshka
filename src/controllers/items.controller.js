@@ -23,14 +23,16 @@ export const getItems = async(req, res) => {
 export const getOneItem = async(req, res) => {
     try {
         const [row] = await pool.query(
-            'SELECT * FROM item WHERE id = ?', [req.params.id]
+            'SELECT * FROM productos WHERE id = ?', [req.params.id]
         );
         //Si se busca un id inexistente mandara 404
         if (row.length <= 0) return res.status(404).json({
             message: 'Item not found'
         });
+
         //Toma el valor del arreglo.
-        res.json(row[0]);
+        res.status(200).json(row[0]);
+
     } catch (error) {
         return res.status(500).json({
             Message: 'Something Goes Wrong.'
@@ -45,8 +47,10 @@ export const createItem = async(req, res) => {
 
         const { nombre, descripcion, peso, marca, estado, cantidad } = req.body;
 
+        console.log(nombre, descripcion, peso, marca, estado, cantidad)
+
         await pool.query(
-            'INSERT INTO item (nombre, descripcion, peso, marca, estado, cantidad) VALUES(?, ?, ?, ?, ?, ?)', [nombre, descripcion, peso, marca, estado, cantidad]
+            'INSERT INTO productos (Nombre, Descripcion, Peso, MarcaId, Estado, Cantidad) VALUES(?, ?, ?, ?, ?, ?)', [nombre, descripcion, peso, marca, estado, cantidad]
         );
 
         res.sendStatus(204);
