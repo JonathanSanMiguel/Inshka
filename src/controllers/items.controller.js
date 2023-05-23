@@ -1,11 +1,15 @@
 import { pool } from '../db.js';
 
+
 //obtener todos los items.
 export const getItems = async(req, res) => {
     try {
         //throw new Error('DB error');
-        const [rows] = await pool.query('SELECT * FROM item');
-        res.json(rows);
+        const [rows] = await pool.query('SELECT * FROM productos');
+
+        res.status(200).json(
+            rows
+        );
     } catch (error) {
         //Si falla la peticion regresa estado 500.
         return res.status(500).json({
@@ -13,6 +17,7 @@ export const getItems = async(req, res) => {
         }); //return
     } //catch
 }; //getItems
+
 
 //Obtener un item.
 export const getOneItem = async(req, res) => {
@@ -33,25 +38,34 @@ export const getOneItem = async(req, res) => {
     } //catch
 }; //getOneItem
 
+
 //Crear un nuevo item.
 export const createItem = async(req, res) => {
-    const { nombre, descripcion, peso, marca, estado, cantidad } = req.body;
     try {
+
+        const { nombre, descripcion, peso, marca, estado, cantidad } = req.body;
+
         await pool.query(
             'INSERT INTO item (nombre, descripcion, peso, marca, estado, cantidad) VALUES(?, ?, ?, ?, ?, ?)', [nombre, descripcion, peso, marca, estado, cantidad]
         );
+
         res.sendStatus(204);
+
     } catch (error) {
-        return res.status().json({
+        return res.status(500).json({
             Message: 'Something Goes Wrong'
         }); //return
     } //catch
 }; //createItem
 
+
 //Actualizar un item.
 export const upDateItem = async(req, res) => {
+
     const { id } = req.params;
+
     const { nombre, descripcion, peso, marca, estado, cantidad } = req.body;
+    
     try {
         await pool.query(
             'UPDATE item SET nombre = ?, descripcion = ?, peso = ?, marca = ?, estado = ?, cantidad = ? WHERE id = ?', [nombre, descripcion, peso, marca, estado, cantidad, id]
@@ -63,6 +77,7 @@ export const upDateItem = async(req, res) => {
         }); //return
     } //catch
 }; //upDateItem
+
 
 //Borrar un item.
 export const deleteItem = async(req, res) => {

@@ -4,9 +4,9 @@ import { getItems, getOneItem, createItem, upDateItem, deleteItem } from '../con
 const router = Router();
 //Rutas para las consultas.
 //Ruta para taer todos los items.
-router.get('/Items', getItems);
+router.get('/items', getItems);
 //Ruta para obtener un item.
-router.get('/OneItem/:id', getOneItem);
+router.get('/oneItem/:id', getOneItem);
 //Ruta para crear un nuevo item.
 router.post('/create', createItem);
 //Ruta para actualizar un item.
