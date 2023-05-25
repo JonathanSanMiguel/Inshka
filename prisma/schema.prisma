@@ -6,6 +6,25 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model marcas {
+  Id Int @id @default(autoincrement())
+  Nombre String
+  productos productos[]
+}
+
+model productos {
+  Id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Nombre String
+  Descripcion String
+  Peso Int
+  MarcaId Int
+  marca marcas @relation(fields: [MarcaId], references: [Id])
+  Estado String
+  Cantidad Int
 }
